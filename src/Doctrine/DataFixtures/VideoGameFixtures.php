@@ -2,7 +2,6 @@
 
 namespace App\Doctrine\DataFixtures;
 
-use App\Model\Entity\User;
 use App\Model\Entity\VideoGame;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
