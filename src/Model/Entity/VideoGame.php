@@ -255,6 +255,27 @@ class VideoGame
         return $this->reviews;
     }
 
+    public function addReview(Review $review): VideoGame
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setVideoGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): VideoGame
+    {
+        if ($this->reviews->removeElement($review)) {
+            if ($review->getVideoGame() === $this) {
+                $review->setVideoGame(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function hasAlreadyReview(User $user): bool
     {
         return $this->reviews->exists(static fn (int $key, Review $review): bool => $review->getUser() === $user);
