@@ -229,6 +229,24 @@ class VideoGame
         return $this->tags;
     }
 
+    public function addTag(Tag $tag): VideoGame
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): VideoGame
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection<Review>
      */

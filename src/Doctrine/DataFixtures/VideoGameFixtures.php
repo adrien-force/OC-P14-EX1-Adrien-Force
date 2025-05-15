@@ -14,9 +14,7 @@ use Faker\Generator;
 final class VideoGameFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly Generator $faker,
-        private readonly CalculateAverageRating $calculateAverageRating,
-        private readonly CountRatingsPerValue $countRatingsPerValue,
+        private readonly Generator $faker
     ) {
     }
 
@@ -34,13 +32,11 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
             ->setImageSize(2_098_872)
         );
 
-        // TODO : Ajouter les tags aux vidéos
 
         array_walk($videoGames, [$manager, 'persist']);
 
         $manager->flush();
 
-        // TODO : Ajouter des reviews aux vidéos
     }
 
     public function getDependencies(): array
