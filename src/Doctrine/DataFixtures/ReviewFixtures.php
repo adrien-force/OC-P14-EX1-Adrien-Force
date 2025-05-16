@@ -21,12 +21,13 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
     {
         $videoGames = $manager->getRepository(VideoGame::class)->findAll();
         $users = $manager->getRepository(User::class)->findAll();
+        //Remove testuser@gmail.com from the list so it can be used in functional tests
+        $users = array_filter($users, fn (User $user): bool => $user->getEmail() !== 'testuser@gmail.com');
 
         foreach ($videoGames as $videoGame) {
             $shuffledUsers = $users;
             shuffle($shuffledUsers);
-
-            $reviews = array_fill_callback(0, 10, fn (int $index): Review => (new Review())
+            $reviews = array_fill_callback(0, 5, fn (int $index): Review => (new Review())
                 ->setComment($this->generator->text(200))
                 ->setRating($this->generator->numberBetween(1, 5))
                 ->setVideoGame($videoGame)

@@ -21,6 +21,11 @@ final class UserFixtures extends Fixture
             ->setPlainPassword('password')
         );
 
+        $users[] = (new User())
+            ->setUsername('testuser')
+            ->setEmail('testuser@gmail.com')
+            ->setPlainPassword('password');
+
         array_walk($users, [$manager, 'persist']);
 
         $manager->flush();
