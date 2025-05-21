@@ -25,3 +25,12 @@ php.local.ini
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
+
+
+/.idea/dataSources.xml
+/.idea/git_toolbox_prj.xml
+/.idea/php.xml
+/.idea/php-test-framework.xml
+/.idea/phpunit.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/symfony2.xml

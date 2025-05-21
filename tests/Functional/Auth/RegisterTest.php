@@ -12,19 +12,20 @@ final class RegisterTest extends FunctionalTestCase
 {
     public function testThatRegistrationShouldSucceeded(): void
     {
+        $this->get('/auth/logout');
         $this->get('/auth/register');
 
         $this->client->submitForm('S\'inscrire', self::getFormData());
 
         self::assertResponseRedirects('/auth/login');
 
-        $user = $this->getEntityManager()->getRepository(User::class)->findOneByEmail('user@email.com');
+        $user = $this->getEntityManager()->getRepository(User::class)->findOneByEmail('usertest1@email.com');
 
         $userPasswordHasher = $this->service(UserPasswordHasherInterface::class);
 
         self::assertNotNull($user);
-        self::assertSame('username', $user->getUsername());
-        self::assertSame('user@email.com', $user->getEmail());
+        self::assertSame('usernametest1', $user->getUsername());
+        self::assertSame('usertest1@email.com', $user->getEmail());
         self::assertTrue($userPasswordHasher->isPasswordValid($user, 'SuperPassword123!'));
     }
 
@@ -53,8 +54,8 @@ final class RegisterTest extends FunctionalTestCase
     public static function getFormData(array $overrideData = []): array
     {
         return [
-            'register[username]' => 'username',
-            'register[email]' => 'user@email.com',
+            'register[username]' => 'usernametest1',
+            'register[email]' => 'usertest1@email.com',
             'register[plainPassword]' => 'SuperPassword123!',
         ] + $overrideData;
     }
