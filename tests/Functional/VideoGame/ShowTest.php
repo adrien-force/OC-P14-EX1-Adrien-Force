@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ShowTest extends FunctionalTestCase
 {
-
     private ?Review $testReview = null;
 
     public function testShouldShowVideoGame(): void
@@ -51,9 +50,8 @@ final class ShowTest extends FunctionalTestCase
             ->getRepository(Review::class)
             ->findOneBy([
                 'comment' => "Clair obscur c'est pas mal",
-                'rating' => 5
+                'rating' => 5,
             ]);
-
     }
 
     public function testThatFormIsHiddenWhenUserHasAlreadyReviewed(): void
