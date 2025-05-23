@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ShowTest extends FunctionalTestCase
 {
-    private ?Review $testReview = null;
-
     public function testShouldShowVideoGame(): void
     {
         $this->get('/jeu-video-0');
@@ -45,13 +43,6 @@ final class ShowTest extends FunctionalTestCase
         $this->client->followRedirect();
         self::assertSelectorTextContains('div.list-group-item:last-child h3', 'testuser');
         self::assertSelectorTextContains('div.list-group-item:last-child span.value', '5');
-
-        $this->testReview = $this->getEntityManager()
-            ->getRepository(Review::class)
-            ->findOneBy([
-                'comment' => "Clair obscur c'est pas mal",
-                'rating' => 5,
-            ]);
     }
 
     public function testThatFormIsHiddenWhenUserHasAlreadyReviewed(): void
@@ -91,16 +82,5 @@ final class ShowTest extends FunctionalTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_UNPROCESSABLE_ENTITY);
         self::assertStringContainsString('<h1 class="mb-4 text-center text-uppercase">Jeu vidéo 2</h1>', $response);
         self::assertStringNotContainsString("Clair obscur c'est pas mal", $response);
-    }
-
-    protected function tearDown(): void
-    {
-        if ($this->testReview) {
-            $em = $this->getEntityManager();
-            $em->remove($this->testReview);
-            $em->flush();
-        }
-
-        parent::tearDown();
     }
 }
