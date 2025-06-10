@@ -17,7 +17,7 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
 
     public function load(ObjectManager $manager): void
     {
-        for ($videoGames = [], $i = 0; $i < 50; $i++) {
+        for ($videoGames = [], $i = 0; $i < 50; ++$i) {
             $desc = implode($this->faker->paragraphs(10, false));
             $test = implode($this->faker->paragraphs(6, false));
 

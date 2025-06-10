@@ -15,7 +15,7 @@ final class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        for ($users = [], $i = 0; $i < 10; $i++) {
+        for ($users = [], $i = 0; $i < 10; ++$i) {
             $users[] = (new User())
                 ->setUsername($name = $this->faker->userName)
                 ->setEmail(sprintf('%s@email.com', $name))
