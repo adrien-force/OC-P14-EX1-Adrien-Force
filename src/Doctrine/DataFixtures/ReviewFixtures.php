@@ -21,8 +21,8 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
     {
         $videoGames = $manager->getRepository(VideoGame::class)->findAll();
         $users = $manager->getRepository(User::class)->findAll();
-        //Remove testuser@gmail.com from the list so it can be used in functional tests
-        $users = array_filter($users, fn (User $user): bool => $user->getEmail() !== 'testuser@gmail.com');
+        // Remove testuser@gmail.com from the list so it can be used in functional tests
+        $users = array_filter($users, fn (User $user): bool => 'testuser@gmail.com' !== $user->getEmail());
 
         foreach ($videoGames as $videoGame) {
             $shuffledUsers = $users;

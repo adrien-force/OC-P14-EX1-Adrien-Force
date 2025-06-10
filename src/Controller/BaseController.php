@@ -19,5 +19,4 @@ class BaseController extends AbstractController
 
         throw $this->createAccessDeniedException('You must be logged in to access this resource.');
     }
-
 }
