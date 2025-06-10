@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class TagFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $videogames = $manager->getRepository(VideoGame::class)->findAll();
 
@@ -27,8 +27,9 @@ class TagFixtures extends Fixture implements DependentFixtureInterface
             'Platformer',
         ];
 
-        $tags = array_fill_callback(0, count($tagNames), static fn (int $index) => (new Tag())
-            ->setName($tagNames[$index])
+        $tags = array_map(
+            static fn (string $name) => (new Tag())->setName($name),
+            $tagNames
         );
 
         array_walk(
