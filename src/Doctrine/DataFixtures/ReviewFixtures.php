@@ -27,7 +27,10 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
         foreach ($videoGames as $videoGame) {
             $shuffledUsers = $users;
             shuffle($shuffledUsers);
-            $reviews = array_fill_callback(0, 5, fn (int $index): Review => (new Review())
+            $reviews = array_fill(
+                0,
+                5,
+                fn (int $index): Review => (new Review())
                 ->setComment($this->generator->text(200))
                 ->setRating($this->generator->numberBetween(1, 5))
                 ->setVideoGame($videoGame)
