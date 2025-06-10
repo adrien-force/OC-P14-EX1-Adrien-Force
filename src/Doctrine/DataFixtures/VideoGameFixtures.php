@@ -17,17 +17,21 @@ final class VideoGameFixtures extends Fixture implements DependentFixtureInterfa
 
     public function load(ObjectManager $manager): void
     {
-        $videoGames = \array_fill_callback(0, 50, fn (int $index): VideoGame => (new VideoGame())
-            ->setTitle(sprintf('Jeu vidéo %d', $index))
-            ->setDescription($this->faker->paragraphs(10, true))
-            ->setReleaseDate(new \DateTimeImmutable())
-            ->setTest($this->faker->paragraphs(6, true))
-            ->setRating(($index % 5) + 1)
-            ->setImageName(sprintf('video_game_%d.png', $index))
-            ->setImageSize(2_098_872)
-        );
+        for ($videoGames = [], $i = 0; $i < 50; $i++) {
+            $desc = implode($this->faker->paragraphs(10, false));
+            $test = implode($this->faker->paragraphs(6, false));
 
-        array_walk($videoGames, [$manager, 'persist']);
+            $videoGames[] = (new VideoGame())
+                ->setTitle(sprintf('Jeu vidéo %d', $i))
+                ->setDescription($desc)
+                ->setReleaseDate(new \DateTimeImmutable())
+                ->setTest($test)
+                ->setRating(($i % 5) + 1)
+                ->setImageName(sprintf('video_game_%d.png', $i))
+                ->setImageSize(2_098_872);
+
+            $manager->persist($videoGames[$i]);
+        }
 
         $manager->flush();
     }
