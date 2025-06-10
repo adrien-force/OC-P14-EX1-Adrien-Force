@@ -34,3 +34,13 @@ php.local.ini
 /.idea/phpunit.xml
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/symfony2.xml
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
+
+###>
+/.idea/876-p14-critipixel.iml
+/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd
+/.idea/modules.xml
+/.idea/commandlinetools/Symfony_5_22_25__6_46PM.xml
