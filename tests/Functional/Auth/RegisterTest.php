@@ -23,6 +23,10 @@ final class RegisterTest extends FunctionalTestCase
 
         $userPasswordHasher = $this->service(UserPasswordHasherInterface::class);
 
+        if (!$userPasswordHasher instanceof UserPasswordHasherInterface) {
+            self::fail('UserPasswordHasherInterface service is not available.');
+        }
+
         self::assertNotNull($user);
         self::assertSame('usernametest1', $user->getUsername());
         self::assertSame('usertest1@email.com', $user->getEmail());
@@ -31,6 +35,7 @@ final class RegisterTest extends FunctionalTestCase
 
     /**
      * @dataProvider provideInvalidFormData
+     * @param array<string, string> $formData
      */
     public function testThatRegistrationShouldFailed(array $formData): void
     {
@@ -41,7 +46,7 @@ final class RegisterTest extends FunctionalTestCase
         self::assertResponseIsUnprocessable();
     }
 
-    public static function provideInvalidFormData(): iterable
+    public static function provideInvalidFormData(): \Generator
     {
         yield 'empty username' => [self::getInvalidFormData(null, 'usertest1@email.com', 'SuperPassword123!')];
         yield 'non unique username' => [self::getInvalidFormData('testuser', 'usertest1@email.com', 'SuperPassword123!')];
