@@ -6,7 +6,7 @@ namespace App\Model\Trait;
 
 trait EnumTrait
 {
-    public static function tryFromName(string $name): ?static
+    public static function tryFromName(string $name): ?self
     {
         foreach (self::cases() as $case) {
             if ($case->name === $name) {
