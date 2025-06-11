@@ -73,7 +73,7 @@ final class VideoGamesList implements \Countable, \IteratorAggregate
 
         $this->data = $this->videoGameRepository->getVideoGames($this->pagination, $this->filter);
 
-        $this->pagination->init(count($this->data), count($this));
+        $this->pagination->init($this->data->count(), $this->count());
 
         if ($this->pagination->getPage() > 1) {
             $this->pagination->add(
