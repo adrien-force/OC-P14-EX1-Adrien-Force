@@ -19,18 +19,14 @@ final readonly class PaginationValueResolver implements ValueResolverInterface
         $argumentType = $argument->getType();
 
         if (Pagination::class !== $argumentType) {
-            throw new \InvalidArgumentException(sprintf(
-                'Expected argument of type "%s", got "%s"',
-                Pagination::class,
-                $argumentType ?? 'null'
-            ));
+            throw new \InvalidArgumentException(sprintf('Expected argument of type "%s", got "%s"', Pagination::class, $argumentType ?? 'null'));
         }
 
         return new Pagination(
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 10),
-            Sorting::tryFromName((string)$request->query->get('sorting')) ?? Sorting::ReleaseDate,
-            Direction::tryFromName((string)$request->query->get('direction')) ?? Direction::Ascending
+            Sorting::tryFromName((string) $request->query->get('sorting')) ?? Sorting::ReleaseDate,
+            Direction::tryFromName((string) $request->query->get('direction')) ?? Direction::Ascending
         );
     }
 }

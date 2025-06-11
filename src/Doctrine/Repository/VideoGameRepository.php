@@ -64,7 +64,7 @@ final class VideoGameRepository extends ServiceEntityRepository
                 ->setParameter('tagCount', count($filter->getTags()));
         }
 
-        //TODO: PHPStan
+        // TODO: PHPStan
         //         should return
         //         Doctrine\ORM\Tools\Pagination\Paginator<App\Model\Entity\VideoGame> but returns
         //         Doctrine\ORM\Tools\Pagination\Paginator<mixed>

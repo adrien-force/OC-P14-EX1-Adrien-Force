@@ -57,7 +57,6 @@ final class Pagination implements \IteratorAggregate, \Countable
     /**
      * @param int<0, max> $total
      * @param int<0, max> $count
-     * @return void
      */
     public function init(int $total, int $count): void
     {

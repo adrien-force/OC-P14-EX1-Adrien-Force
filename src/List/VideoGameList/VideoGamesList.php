@@ -31,6 +31,9 @@ final class VideoGamesList implements \Countable, \IteratorAggregate
 
     private string $route;
 
+    /**
+     * @var array<string>
+     */
     private array $routeParameters;
 
     public function __construct(
@@ -50,8 +53,11 @@ final class VideoGamesList implements \Countable, \IteratorAggregate
     {
         $this->filter = new Filter();
 
-        $this->route = $request->attributes->get('_route');
-        $this->routeParameters = $request->query->all();
+        $this->route = $request->attributes->getString('_route');
+        $this->routeParameters = [];
+        foreach ($request->query->all() as $key => $value) {
+            $this->routeParameters[$key] = $request->query->getString($key, '');
+        }
 
         $this->form = $this->formFactory
             ->create(
