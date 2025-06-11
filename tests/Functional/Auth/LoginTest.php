@@ -20,6 +20,10 @@ final class LoginTest extends FunctionalTestCase
 
         $authorizationChecker = $this->service(AuthorizationCheckerInterface::class);
 
+        if (!$authorizationChecker instanceof AuthorizationCheckerInterface) {
+            self::fail('AuthorizationCheckerInterface service is not available.');
+        }
+
         self::assertTrue($authorizationChecker->isGranted('IS_AUTHENTICATED'));
 
         $this->get('/auth/logout');
@@ -37,6 +41,10 @@ final class LoginTest extends FunctionalTestCase
         ]);
 
         $authorizationChecker = $this->service(AuthorizationCheckerInterface::class);
+
+        if (!$authorizationChecker instanceof AuthorizationCheckerInterface) {
+            self::fail('AuthorizationCheckerInterface service is not available.');
+        }
 
         self::assertFalse($authorizationChecker->isGranted('IS_AUTHENTICATED'));
     }
