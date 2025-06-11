@@ -32,7 +32,7 @@ final class VideoGamesList implements \Countable, \IteratorAggregate
     private string $route;
 
     /**
-     * @var array<string>
+     * @var array<string|int>
      */
     private array $routeParameters;
 
@@ -54,7 +54,15 @@ final class VideoGamesList implements \Countable, \IteratorAggregate
         $this->filter = new Filter();
 
         $this->route = $request->attributes->getString('_route');
-        $this->routeParameters = $request->attributes->all();
+
+        $this->routeParameters = [];
+        foreach ($request->attributes->all() as $key => $value) {
+            if (is_string($value) || is_int($value)) {
+                $this->routeParameters[$key] = $value;
+            }
+        }
+
+//        $this->routeParameters = $request->attributes->all();
 
         $this->form = $this->formFactory
             ->create(
@@ -150,7 +158,7 @@ final class VideoGamesList implements \Countable, \IteratorAggregate
 
     public function count(): int
     {
-        return count($this->data->getIterator());
+        return iterator_count($this->data->getIterator());
     }
 
     public function generateUrl(int $page): string
