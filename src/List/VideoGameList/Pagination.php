@@ -11,7 +11,7 @@ use App\Model\ValueObject\Sorting;
 use IteratorAggregate;
 
 /**
- * @implements IteratorAggregate<Page>
+ * @implements IteratorAggregate<int, Page>
  */
 final class Pagination implements \IteratorAggregate, \Countable
 {
@@ -39,15 +39,26 @@ final class Pagination implements \IteratorAggregate, \Countable
         return ($this->page - 1) * $this->limit;
     }
 
+    /**
+     * @return int<0, max>
+     */
     public function getLastPage(): int
     {
         if (!$this->initialized) {
             throw new \RuntimeException('Pagination is not initialized');
         }
+        if ($this->limit <= 0 || $this->total <= 0) {
+            throw new \RuntimeException('Invalid limit or total count');
+        }
 
-        return (int) ceil($this->total / $this->limit);
+        return max(0, (int) ceil($this->total / $this->limit));
     }
 
+    /**
+     * @param int<0, max> $total
+     * @param int<0, max> $count
+     * @return void
+     */
     public function init(int $total, int $count): void
     {
         $this->total = $total;
@@ -63,7 +74,7 @@ final class Pagination implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return \Traversable<string, int>
+     * @return \ArrayIterator<int, Page>
      */
     public function getIterator(): \Traversable
     {
@@ -98,11 +109,17 @@ final class Pagination implements \IteratorAggregate, \Countable
         return $this->limit;
     }
 
+    /**
+     * @return Direction[]
+     */
     public function getDirections(): array
     {
         return Direction::cases();
     }
 
+    /**
+     * @return Sorting[]
+     */
     public function getAllSorting(): array
     {
         return Sorting::cases();
@@ -131,6 +148,9 @@ final class Pagination implements \IteratorAggregate, \Countable
         ];
     }
 
+    /**
+     * @return int<0, max>
+     */
     public function count(): int
     {
         return $this->getLastPage();
