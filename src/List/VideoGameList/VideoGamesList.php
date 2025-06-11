@@ -54,10 +54,7 @@ final class VideoGamesList implements \Countable, \IteratorAggregate
         $this->filter = new Filter();
 
         $this->route = $request->attributes->getString('_route');
-        $this->routeParameters = [];
-        foreach ($request->query->all() as $key => $value) {
-            $this->routeParameters[$key] = $request->query->getString($key, '');
-        }
+        $this->routeParameters = $request->attributes->all();
 
         $this->form = $this->formFactory
             ->create(

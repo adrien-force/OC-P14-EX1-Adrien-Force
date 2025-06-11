@@ -24,20 +24,23 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
         // Remove testuser@gmail.com from the list so it can be used in functional tests
         $users = array_filter($users, fn (User $user): bool => 'testuser@gmail.com' !== $user->getEmail());
 
+
         foreach ($videoGames as $videoGame) {
             $shuffledUsers = $users;
             shuffle($shuffledUsers);
-            $reviews = array_fill(
-                0,
-                5,
-                fn (int $index): Review => (new Review())
+
+            for ($i = 0; $i < 5; $i++) {
+                $review = (new Review())
                 ->setComment($this->generator->text(200))
                 ->setRating($this->generator->numberBetween(1, 5))
-                ->setVideoGame($videoGame)
-                ->setUser($shuffledUsers[$index])
-            );
+                ->setVideoGame($videoGames[$i % count($videoGames)])
+                ->setUser($users[$i % count($users)]);
 
-            array_walk($reviews, [$manager, 'persist']);
+                $manager->persist($review);
+            }
+
+            $manager->flush();
+
         }
 
         $manager->flush();
