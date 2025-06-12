@@ -22,21 +22,29 @@ abstract class FunctionalTestCase extends WebTestCase
 
     protected function getEntityManager(): EntityManagerInterface
     {
-        return $this->service(EntityManagerInterface::class);
+        $em = $this->service(EntityManagerInterface::class);
+        assert($em instanceof EntityManagerInterface);
+        return $em;
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @param class-string<T> $id
      *
-     * @return T
+     * @return object
      */
     protected function service(string $id): object
     {
         return $this->client->getContainer()->get($id);
     }
 
+    /**
+     * @param string $uri
+     * @param array<string, string> $parameters
+     *
+     * @return Crawler
+     */
     protected function get(string $uri, array $parameters = []): Crawler
     {
         return $this->client->request('GET', $uri, $parameters);
@@ -44,7 +52,15 @@ abstract class FunctionalTestCase extends WebTestCase
 
     protected function login(string $email = 'user+0@email.com'): void
     {
-        $user = $this->service(EntityManagerInterface::class)->getRepository(User::class)->findOneByEmail($email);
+        /**
+         * @var EntityManagerInterface $service
+         */
+        $service = $this->service(EntityManagerInterface::class);
+        $user = $service->getRepository(User::class)->findOneByEmail($email);
+
+        if (!$user instanceof User) {
+            self::fail(sprintf('User with email "%s" not found.', $email));
+        }
 
         $this->client->loginUser($user);
     }
