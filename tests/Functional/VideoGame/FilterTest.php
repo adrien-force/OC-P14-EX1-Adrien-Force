@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Functional\VideoGame;
 
 use App\Tests\Functional\FunctionalTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * @phpstan-type TagInfo array{value: int, label: string}
+ */
 final class FilterTest extends FunctionalTestCase
 {
     public function testThatHomePageDefaultPaginationIsTen(): void
@@ -38,10 +42,12 @@ final class FilterTest extends FunctionalTestCase
 
         $dates = $this->client->getCrawler()
             ->filter('article.game-card small.text-muted')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
+                $value = $node->nodeValue ?? '';
+                assert(is_string($value));
                 return \DateTime::createFromFormat(
                     'd/m/Y',
-                    substr($node->html(), 8) // Skips "Sortie: " to get only the date
+                    substr($value, 8) // Skips "Sortie: " to get only the date
                 );
             });
 
@@ -64,10 +70,12 @@ final class FilterTest extends FunctionalTestCase
 
         $dates = $this->client->getCrawler()
             ->filter('article.game-card small.text-muted')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
+                $value = $node->nodeValue ?? '';
+                assert(is_string($value));
                 return \DateTime::createFromFormat(
                     'd/m/Y',
-                    substr($node->html(), 8) // Skips "Sortie: " to get only the date
+                    substr($value, 8) // Skips "Sortie: " to get only the date
                 );
             });
 
@@ -90,7 +98,7 @@ final class FilterTest extends FunctionalTestCase
 
         $names = $this->client->getCrawler()
             ->filter('article.game-card h2')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
                 return $node->text();
             });
 
@@ -113,7 +121,7 @@ final class FilterTest extends FunctionalTestCase
 
         $names = $this->client->getCrawler()
             ->filter('article.game-card h2')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
                 return $node->text();
             });
 
@@ -136,7 +144,7 @@ final class FilterTest extends FunctionalTestCase
 
         $ratings = $this->client->getCrawler()
             ->filter('div.rating-square div.rating-1 span.value')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
                 return (int) $node->text();
             });
 
@@ -159,7 +167,7 @@ final class FilterTest extends FunctionalTestCase
 
         $ratings = $this->client->getCrawler()
             ->filter('div.rating-square div.rating-1 span.value')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
                 return (int) $node->text();
             });
 
@@ -182,7 +190,7 @@ final class FilterTest extends FunctionalTestCase
 
         $ratings = $this->client->getCrawler()
             ->filter('div.rating-square div.rating-2 span.value')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
                 return (int) $node->text();
             });
 
@@ -205,7 +213,7 @@ final class FilterTest extends FunctionalTestCase
 
         $ratings = $this->client->getCrawler()
             ->filter('div.rating-square div.rating-2 span.value')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
                 return (int) $node->text();
             });
 
@@ -232,13 +240,21 @@ final class FilterTest extends FunctionalTestCase
         self::assertResponseIsSuccessful('Home page is not reachable');
 
         // Get all available tags
+
+        /**
+         * @var TagInfo[] $selectedTags
+         */
         $selectedTags = $this->client->getCrawler()
             ->filterXPath('//div[@id="filter_tags"]/div')
-            ->each(function ($node) {
-                return [
+            ->each(function (Crawler $node) {
+                /**
+                 * @var TagInfo $tags
+                 */
+                $tags =  [
                     'value' => (int) $node->filter('input')->attr('value'),
                     'label' => trim($node->filter('label')->text()),
                 ];
+                return $tags;
             });
 
         $this->client->submitForm('Filtrer', ['filter[tags]' => [$selectedTags[0]['value']]], 'GET');
@@ -247,7 +263,7 @@ final class FilterTest extends FunctionalTestCase
         // Assert that each videogame found has at least the targeted tags
         $this->client->getCrawler()
             ->filter('div.card-body')
-            ->each(function ($node) use ($selectedTags) {
+            ->each(function (Crawler $node) use ($selectedTags) {
                 $tags = $node->filter('div.game-card-tags');
                 self::assertStringContainsString($selectedTags[0]['label'], $tags->text(), 'Tag is not found in the filtered result');
             });
@@ -258,10 +274,12 @@ final class FilterTest extends FunctionalTestCase
         $this->get('/');
         self::assertResponseIsSuccessful('Home page is not reachable');
 
-        // Get the first two tags available
+        /**
+         * @var TagInfo[] $selectedTags
+         */
         $selectedTags = $this->client->getCrawler()
             ->filterXPath('//div[@id="filter_tags"]/div')
-            ->each(function ($node) {
+            ->each(function (Crawler $node) {
                 return [
                     'value' => (int) $node->filter('input')->attr('value'),
                     'label' => trim($node->filter('label')->text()),
@@ -274,7 +292,7 @@ final class FilterTest extends FunctionalTestCase
 
         $this->client->getCrawler()
             ->filter('div.card-body')
-            ->each(function ($node) use ($selectedTags) {
+            ->each(function (Crawler $node) use ($selectedTags) {
                 $tags = $node->filter('div.game-card-tags');
                 foreach ($selectedTags as $tag) {
                     self::assertStringContainsString($tag['label'], $tags->text(), 'Tag is not found in the filtered result');
