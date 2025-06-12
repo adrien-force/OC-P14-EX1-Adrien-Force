@@ -50,6 +50,7 @@ final class ShowTest extends FunctionalTestCase
         $videogames = $this->getEntityManager()->getRepository(VideoGame::class)->findAll();
         $videoGame = $videogames[1];
         $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['email' => 'testuser@gmail.com']);
+        self::assertNotNull($user);
         $review = (new Review())
             ->setUser($user)
             ->setVideoGame($videoGame)
