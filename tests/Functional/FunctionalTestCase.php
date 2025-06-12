@@ -24,6 +24,7 @@ abstract class FunctionalTestCase extends WebTestCase
     {
         $em = $this->service(EntityManagerInterface::class);
         assert($em instanceof EntityManagerInterface);
+
         return $em;
     }
 
@@ -31,8 +32,6 @@ abstract class FunctionalTestCase extends WebTestCase
      * @template T of object
      *
      * @param class-string<T> $id
-     *
-     * @return object
      */
     protected function service(string $id): object
     {
@@ -40,10 +39,7 @@ abstract class FunctionalTestCase extends WebTestCase
     }
 
     /**
-     * @param string $uri
      * @param array<string, string> $parameters
-     *
-     * @return Crawler
      */
     protected function get(string $uri, array $parameters = []): Crawler
     {

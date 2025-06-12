@@ -45,6 +45,7 @@ final class FilterTest extends FunctionalTestCase
             ->each(function (Crawler $node) {
                 $value = $node->nodeValue ?? '';
                 assert(is_string($value));
+
                 return \DateTime::createFromFormat(
                     'd/m/Y',
                     substr($value, 8) // Skips "Sortie: " to get only the date
@@ -73,6 +74,7 @@ final class FilterTest extends FunctionalTestCase
             ->each(function (Crawler $node) {
                 $value = $node->nodeValue ?? '';
                 assert(is_string($value));
+
                 return \DateTime::createFromFormat(
                     'd/m/Y',
                     substr($value, 8) // Skips "Sortie: " to get only the date
@@ -250,10 +252,11 @@ final class FilterTest extends FunctionalTestCase
                 /**
                  * @var TagInfo $tags
                  */
-                $tags =  [
+                $tags = [
                     'value' => (int) $node->filter('input')->attr('value'),
                     'label' => trim($node->filter('label')->text()),
                 ];
+
                 return $tags;
             });
 

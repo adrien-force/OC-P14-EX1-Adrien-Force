@@ -267,8 +267,8 @@ class VideoGame
 
     public function removeReview(Review $review): VideoGame
     {
-        //Warning: this method does not remove the review from the database, it only removes the association
-        //A service should be used to remove the review from the database !!!
+        // Warning: this method does not remove the review from the database, it only removes the association
+        // A service should be used to remove the review from the database !!!
         if ($this->reviews->contains($review)) {
             $this->reviews->removeElement($review);
         }

@@ -27,7 +27,6 @@ final class RegisterType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Pseudo',
-
                 ],
             ])
             ->add('email', EmailType::class, [

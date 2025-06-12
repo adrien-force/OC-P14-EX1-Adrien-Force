@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 /**
  * @template TAttribute of string
  * @template TSubject of VideoGame
+ *
  * @extends Voter<TAttribute, TSubject>
  */
 class VideoGameVoter extends Voter
