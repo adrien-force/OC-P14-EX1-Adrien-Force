@@ -171,7 +171,7 @@ final class RatingHandlerTest extends TestCase
         $numberOfRatingsPerValue = $videoGame->getNumberOfRatingsPerValue();
 
         // Assert first set of counts
-        self::assertSame($expectedCounts[0]['One'], $numberOfRatingsPerValue->getNumberOfOne());
+        self::assertSame($expectedCounts[0]['One'] ?? 0, $numberOfRatingsPerValue->getNumberOfOne());
         self::assertSame($expectedCounts[0]['Two'] ?? 0, $numberOfRatingsPerValue->getNumberOfTwo());
         self::assertSame($expectedCounts[0]['Three'] ?? 0, $numberOfRatingsPerValue->getNumberOfThree());
         self::assertSame($expectedCounts[0]['Four'] ?? 0, $numberOfRatingsPerValue->getNumberOfFour());
