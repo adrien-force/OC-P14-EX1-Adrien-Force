@@ -7,12 +7,20 @@ use App\Model\Entity\Review;
 use App\Model\Entity\VideoGame;
 use App\Rating\RatingHandler;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @phpstan-type Ratings array<int>
+ * @phpstan-type Counts array<string, int>
+ */
 final class RatingHandlerTest extends TestCase
 {
     protected RatingHandler $ratingHandler;
-    protected VideoGame $videoGame;
+    /**
+     * @var MockObject&VideoGame
+     */
+    protected MockObject|VideoGame $videoGame;
 
     protected function setUp(): void
     {
@@ -23,6 +31,8 @@ final class RatingHandlerTest extends TestCase
 
     /**
      * @dataProvider provideAverageCalculationCases
+     * @param array<int> $ratings
+     * @param int|null $expectedAverage
      */
     public function testThatCalculateAverageReturnsCorrectAverage(array $ratings, ?int $expectedAverage): void
     {
@@ -77,6 +87,8 @@ final class RatingHandlerTest extends TestCase
 
     /**
      * @dataProvider provideRatingsCountCases
+     * @param Ratings $ratings
+     * @param Counts $expectedCounts
      */
     public function testThatCountRatingsSetsCorrectCounts(array $ratings, array $expectedCounts): void
     {
@@ -141,6 +153,8 @@ final class RatingHandlerTest extends TestCase
      * Mock WillReturnOnConsecutiveCalls is risky to use as it's called multiple times inside the same method.
      *
      * @dataProvider provideRatingsCountCasesTwoTimes
+     * @param array<Ratings> $ratings
+     * @param array<int, Counts> $expectedCounts
      */
     public function testThatCountRatingClearsPreviousCounts(array $ratings, array $expectedCounts): void
     {
@@ -157,7 +171,7 @@ final class RatingHandlerTest extends TestCase
         $numberOfRatingsPerValue = $videoGame->getNumberOfRatingsPerValue();
 
         // Assert first set of counts
-        self::assertSame($expectedCounts[0]['One'] ?? 0, $numberOfRatingsPerValue->getNumberOfOne());
+        self::assertSame($expectedCounts[0]['One'], $numberOfRatingsPerValue->getNumberOfOne());
         self::assertSame($expectedCounts[0]['Two'] ?? 0, $numberOfRatingsPerValue->getNumberOfTwo());
         self::assertSame($expectedCounts[0]['Three'] ?? 0, $numberOfRatingsPerValue->getNumberOfThree());
         self::assertSame($expectedCounts[0]['Four'] ?? 0, $numberOfRatingsPerValue->getNumberOfFour());
