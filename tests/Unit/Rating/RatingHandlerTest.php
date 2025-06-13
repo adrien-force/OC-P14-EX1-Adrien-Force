@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 final class RatingHandlerTest extends TestCase
 {
     protected RatingHandler $ratingHandler;
-    protected MockObject|VideoGame $videoGame;
+    protected MockObject&VideoGame $videoGame;
 
     protected function setUp(): void
     {

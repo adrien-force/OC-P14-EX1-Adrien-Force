@@ -64,9 +64,11 @@ final class VideoGameRepository extends ServiceEntityRepository
                 ->setParameter('tagCount', count($filter->getTags()));
         }
 
-        /*
-         * @var Paginator<VideoGame>
+        /**
+         * @var Paginator<VideoGame> $paginator
          */
-        return new Paginator($queryBuilder, fetchJoinCollection: true);
+        $paginator = new Paginator($queryBuilder, fetchJoinCollection: true);
+
+        return $paginator;
     }
 }
