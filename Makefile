@@ -1,4 +1,4 @@
-.PHONY: lint test cs-fix phpstan clean reinstall
+.PHONY: lint test cs-fix phpstan clean reinstall install
 
 # Default target
 qa: lint test phpstan
@@ -50,4 +50,9 @@ docker:
 
 # Full reinstall with Docker
 reinstall-docker: clean docker reinstall
+
+# Install the project (single command)
+install: 
+	make reinstall-docker 
+	symfony serve -d
 

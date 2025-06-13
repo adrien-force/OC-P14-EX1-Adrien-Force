@@ -1,26 +1,100 @@
 <img src="assets/images/logo.png" alt="CritiPixel" width="200" />
 
-# CritiPixel
+<h1 align="center">CritiPixel</h1>
+<p align="center"><i>Projet N°14 de la formation Développeur d'application PHP Symfony
+@OpenClassrooms <br> <a href="https://github.com/adrien-force/876-p14-critipixel/commits?author=adrien-force"><img src="https://img.shields.io/badge/Auteur_:-Adrien_FORCE-orange"></a></i></p>
 
-## Pré-requis
-* PHP >= 8.2
-* Composer
-* Extension PHP Xdebug
-* Symfony (binaire)
+## 🎯 Table des matières
+- [Description du projet](#-description)
+- [Améliorations apportées](#-améliorations-apportées)
+- [Prérequis](#-prérequis)
+- [Installation](#-installation)
+- [Utilisation](#-utilisation)
 
-## Installation
+## 📄 Description
+<br>
 
-### Composer
-Dans un premier temps, installer les dépendances :
+CritiPixel est une plateforme de critiques de jeux vidéo développée avec Symfony 6. Ce projet étend le projet scolaire initial avec des fonctionnalités supplémentaires, des tests améliorés et une intégration CI/CD.
+
+## 🚀 Améliorations apportées
+
+- **Tests unitaires** : Couverture de test complète pour la logique métier
+- **Tests fonctionnels** : Tests des flux utilisateurs critiques
+- **Intégration CI/CD** : Pipeline automatisé de test et linting
+- **Qualité de code** : Intégration de PHPStan et PHP-CS-Fixer
+- **Support Docker** : Environnement de développement conteneurisé
+- **Makefile** : Commandes simplifiées de gestion du projet
+
+## 🔧 Prérequis
+
+- PHP >= 8.2
+- Composer
+- Extension PHP Xdebug
+- Symfony CLI
+- Docker et Docker Compose (optionnel)
+
+## 🛠️ Installation
+
+1. Cloner le projet sur votre machine
 ```bash
-composer install
+git clone https://github.com/adrien-force/876-p14-critipixel.git
+cd critipixel
 ```
 
-### Docker (optionnel)
-Si vous souhaitez utiliser Docker Compose, il vous suffit de lancer la commande suivante :
+2. Installer le projet
 ```bash
-docker compose up -d
+make install
 ```
+
+Cette commande va :
+- Nettoyer les fichiers existants
+- Reconstruire les conteneurs Docker
+- Installer les dépendances
+- Configurer la base de données
+- Charger les fixtures
+- Vider et réchauffer le cache
+- Demarrer le serveur Symfony
+
+Note : Si tout va bien les ports du container de la base de données sont valides, sinon il faudra les changer dans le fichier .env.local en les remplaçant par les ports affichés par `docker ps`
+
+
+Le site est maintenant disponible à l'adresse : <http://127.0.0.1:8000>
+
+## 🔥️ Utilisation
+
+### Commandes Make disponibles
+
+- `make clean` - Nettoyer les fichiers générés
+- `make reinstall` - Réinstaller le projet sans Docker
+- `make reinstall-docker` - Réinstallation complète avec Docker
+- `make test` - Exécuter la suite de tests
+- `make qa` - Exécuter les vérifications de qualité de code
+- `make cs-fix` - Corriger le style de code
+- `make phpstan` - Exécuter l'analyse statique
+
+### Développement
+
+#### Exécuter les tests
+```bash
+make test
+```
+
+#### Qualité de code
+```bash
+make qa
+```
+
+#### Correction du style de code
+```bash
+make cs-fix
+```
+
+#### Analyse statique
+```bash
+make phpstan
+```
+
+## 📚 Documentation originale du projet
 
 ## Configuration
 
