@@ -34,7 +34,7 @@ jobs:
       - name: Check coding standards
         run: vendor/bin/php-cs-fixer fix --dry-run --diff --format=checkstyle | cs2pr
 
-  test:
+  php-unit:
     runs-on: ubuntu-latest
     needs: php-cs-fixer
 
