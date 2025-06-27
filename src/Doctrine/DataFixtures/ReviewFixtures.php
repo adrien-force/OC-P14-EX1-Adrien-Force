@@ -32,7 +32,7 @@ class ReviewFixtures extends Fixture implements DependentFixtureInterface
                 $review = (new Review())
                 ->setComment($this->generator->text(200))
                 ->setRating($this->generator->numberBetween(1, 5))
-                ->setVideoGame($videoGames[$i % count($videoGames)])
+                ->setVideoGame($videoGame)
                 ->setUser($users[$i % count($users)]);
 
                 $manager->persist($review);

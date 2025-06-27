@@ -1,13 +1,10 @@
-.PHONY: lint test cs-fix phpstan clean reinstall install
+.PHONY: lint test phpstan clean reinstall install
 
 # Default target
 qa: lint test phpstan
 
 # Check code style and run static analysis
-lint: cs-fix
-
-# Run CS-Fixer
-cs-fix:
+lint:
 	vendor/bin/php-cs-fixer fix --diff --verbose
 
 # Run PHPStan
@@ -18,18 +15,8 @@ phpstan:
 test:
 	symfony php bin/phpunit
 
-# Clean project files
-clean:
-	rm -rf vendor/
-	rm -rf var/cache/*
-	rm -rf var/log/*
-	rm -rf .phpunit.cache/
-	rm -f .env.local
-	rm -f .env.test.local
-
 # Reinstall the project
-reinstall: clean
-	composer install --optimize-autoloader
+reinstall: composer
 	symfony console doctrine:database:drop --force --if-exists
 	symfony console doctrine:database:create
 	symfony console doctrine:migrations:migrate --no-interaction
@@ -41,15 +28,14 @@ reinstall: clean
 build: composer docker
 
 composer:
-	composer install --optimize-autoloader
+	composer install
 
 # Start the Docker containers
 docker:
-	docker compose down -v
-	docker compose up -d --build
+	docker compose up -d --force-recreate
 
 # Full reinstall with Docker
-reinstall-docker: clean docker reinstall
+reinstall-docker: docker reinstall
 
 # Install the project (single command)
 install: 
