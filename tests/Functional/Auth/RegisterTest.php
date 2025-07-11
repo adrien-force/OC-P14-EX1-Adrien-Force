@@ -12,7 +12,6 @@ final class RegisterTest extends FunctionalTestCase
 {
     public function testThatRegistrationShouldSucceeded(): void
     {
-        $this->get('/auth/logout');
         $this->get('/auth/register');
 
         $this->client->submitForm('S\'inscrire', self::getFormData());
